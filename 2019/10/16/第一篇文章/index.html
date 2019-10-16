@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    第一篇文章 |
+    
+    Hexo</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-第一篇文章" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第一篇文章
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/10/16/第一篇文章/" class="article-date">
+  <time datetime="2019-10-16T07:31:15.000Z" itemprop="datePublished">2019-10-16</time>
+</a>
+        
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+  <div class="article-gallery">
+    <div class="article-gallery-photos">
+      
+        
+          <img src="https://w.wallhaven.cc/full/83/wallhaven-839kvo.jpg" itemprop="image">
+        
+      
+    </div>
+  </div>
+
+
+      
+        <p>jvm的全面回顾<a id="more"></a></p>
+<h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>jdk 开发环境： 主要功能是编译， 把我们的java文件编译成class文件<br>还有一些工具<br>包含jre，为了完整性，能够有完整的环境。</p>
+<h2 id="JRE"><a href="#JRE" class="headerlink" title="JRE"></a>JRE</h2><p>jre 运行时环境：  是包含JVM的。</p>
+<p>Write Once Run EveryWhere    可以运行在任何地方：一次编写，任何有jvm的地方都可以运行。</p>
+<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><p>jvm的优点：<br>    内存管理：缺点是可能会内存溢出等等。<br>jvm运行时数据区：<br>    数据：<br>        方法区<br>        Heap（堆）<br>    指令：<br>        程序计数器<br>        虚拟机栈<br>        本地方法栈<br>jvm：是将我们编写的代码，在运行时，把不同的东西放到不同的地方，更具指令，做一些运算。</p>
+<h3 id="程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。"><a href="#程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。" class="headerlink" title="程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。"></a>程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。</h3><p>为什么要用计数器呢？                      </p>
+<pre><code>当线程A在运行时，占用了CPU的时间片，当线程B抢占了CPU的时间片，当线程A再次接着运行时，需要知道要从哪里开始，这个数据就可以从程序计数器拿到了，程序计数器是线程独享的，
+程序计数器存在哪里？？？？</code></pre><h3 id="虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。-线程独享的。"><a href="#虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。-线程独享的。" class="headerlink" title="虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。   线程独享的。"></a>虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。   线程独享的。</h3><p>写的方法到底是谁来运行的： 线程（线程是一个执行单位),生命周期和线程是相同。</p>
+<p>虚拟机栈中每个出栈、入栈的单位叫做栈帧，每个方法都是一个栈帧，死循环调用方法（递归调用自己，没出口）， 会JVM异常之:栈溢出StackOverflowError </p>
+<h4 id="栈帧里有："><a href="#栈帧里有：" class="headerlink" title="栈帧里有："></a>栈帧里有：</h4><pre><code>局部变量表：存储局部变量的表，编译的时候就能确认大小，运行时才会有数据
+操作数栈：javap 指令集中   方法中的数据出栈入栈就是存在这个操作数栈中
+动态链表：多态中，在运行的时候更具字面量（就是变量名）去动态的找实例。
+出口：try catch   正常return等等 
+。。。</code></pre><p>每个栈帧都大小都不一样，因为每个方法的参数等等都是不一样的，所以虚拟机栈没有一个固定的大小。</p>
+<h3 id="本地方法栈（线程独享）："><a href="#本地方法栈（线程独享）：" class="headerlink" title="本地方法栈（线程独享）："></a>本地方法栈（线程独享）：</h3><pre><code>用于用于存放本地方法（native method）:貌似是调用的C、C++等等。</code></pre><h3 id="方法区（线程共享）"><a href="#方法区（线程共享）" class="headerlink" title="方法区（线程共享）"></a>方法区（线程共享）</h3><pre><code>类信息：生成一个实例时，需要的类的信息。
+常量（不准确）、静态变量： 存在于方法区
+JIT（运行时编译的代码，详细百度）：动态代理的信息</code></pre><h3 id="Heap（线程共享）"><a href="#Heap（线程共享）" class="headerlink" title="Heap（线程共享）"></a>Heap（线程共享）</h3><p>JVM的内存模型  JMM<br>    java1.8之前<br>        新生代<br>            eden（十分之八）<br>            s0（十分之一）<br>            s1（十分之一）<br>        老年代<br>        永久代<br>    java1.8之后没有永久代，Meta Space替代永久代，能够解决内存溢出，类似ArrayList，可以扩容；缺点可能会压缩其他地方的空间。</p>
+<p>为什么要分代？</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/16/第一篇文章/" data-id="ck1syu75i0002zgso55kvwb7w"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/laaa-啊啊-略略/">laaa 啊啊 略略</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+    
+      <a href="/2019/10/15/hello-world/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Hello World</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 Hexo</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="Hexo"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>
