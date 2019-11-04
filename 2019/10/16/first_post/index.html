@@ -2,6 +2,7 @@
 <html lang="en">
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
+  <meta name="referrer" content="no-referrer">
   
   
   
@@ -9,7 +10,7 @@
   <title>
     第一篇文章 |
     
-    Hexo</title>
+    北极星</title>
   
     <link rel="shortcut icon" href="/favicon.ico">
   
@@ -25,7 +26,7 @@
   <section class="outer">
   
 
-<article id="post-第一篇文章" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-first_post" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -46,7 +47,7 @@
 
     
       <div class="article-meta">
-        <a href="/2019/10/16/第一篇文章/" class="article-date">
+        <a href="/2019/10/16/first_post/" class="article-date">
   <time datetime="2019-10-16T07:31:15.000Z" itemprop="datePublished">2019-10-16</time>
 </a>
         
@@ -80,7 +81,9 @@
 
 
       
-        <p>JDK、JVM底层原理深度解析<a id="more"></a></p>
+        <p>JDK、JVM底层原理深度解析</p>
+<a id="more"></a>
+
 <h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>jdk 开发环境： 主要功能是编译， 把我们的java文件编译成class文件<br>还有一些工具<br>包含jre，为了完整性，能够有完整的环境。</p>
 <h2 id="JRE"><a href="#JRE" class="headerlink" title="JRE"></a>JRE</h2><p>jre 运行时环境：  是包含JVM的。</p>
 <p>Write Once Run EveryWhere    可以运行在任何地方：一次编写，任何有jvm的地方都可以运行。</p>
@@ -102,7 +105,7 @@ JIT（运行时编译的代码，详细百度）：动态代理的信息</code><
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/16/第一篇文章/" data-id="ck1szme0q0002rcsoiskvsifc"
+      <a data-url="http://yoursite.com/2019/10/16/first_post/" data-id="ck2k328hs0000ziso0gb7bied"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/laaa-啊啊-略略/">laaa 啊啊 略略</a></li></ul>
@@ -115,11 +118,15 @@ JIT（运行时编译的代码，详细百度）：动态代理的信息</code><
     
   <nav class="article-nav">
     
-    
-      <a href="/2019/10/15/hello-world/" class="article-nav-link">
-        <strong class="article-nav-caption">后一篇</strong>
-        <div class="article-nav-title">Hello World</div>
+      <a href="/2019/10/17/hello-world/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Hello World
+          
+        </div>
       </a>
+    
     
   </nav>
 
@@ -128,6 +135,26 @@ JIT（运行时编译的代码，详细百度）：动态代理的信息</code><
 
   
     
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '34894f603fd35f8f0e4b',
+      clientSecret: '9ab0cb4299775c6c6c3e9cdd6cae64cc0d8a2bbf',
+      repo: 'polaris.github.io',
+      owner: 'Polaris-Java',
+      admin: ['Polaris-Java'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
   
 
 </article>
@@ -145,9 +172,13 @@ JIT（运行时编译的代码，详细百度）：动态代理的信息</code><
 </ul>
     </div>
     <ul class="list-inline">
-      <li>&copy; 2019 Hexo</li>
+      <li>&copy; 2019 北极星</li>
       <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
       <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+      <li>
+      	<img src="https://static.dy208.cn/o_1dfilp8ruo521thr1hvf18ji17soa.png">
+		<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">陇ICP备19003991号-1</a>
+      </li>
     </ul>
   </div>
 </footer>
@@ -160,7 +191,7 @@ JIT（运行时编译的代码，详细百度）：动态代理的信息</code><
 <nav class="navbar">
   
     <div class="logo">
-      <a href="/"><img src="/images/hexo.svg" alt="Hexo"></a>
+      <a href="/"><img src="/favicon.ico" alt="北极星"></a>
     </div>
   
   <ul class="nav nav-main">

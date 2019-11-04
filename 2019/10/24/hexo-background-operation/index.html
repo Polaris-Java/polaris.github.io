@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta name="referrer" content="no-referrer">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    hexo后台运行 |
+    
+    北极星</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-hexo-background-operation" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      hexo后台运行
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/10/24/hexo-background-operation/" class="article-date">
+  <time datetime="2019-10-24T04:00:44.000Z" itemprop="datePublished">2019-10-24</time>
+</a>
+        
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+  <div class="article-gallery">
+    <div class="article-gallery-photos">
+      
+        
+          <img src="https://w.wallhaven.cc/full/j5/wallhaven-j5y525.jpg" itemprop="image">
+        
+      
+    </div>
+  </div>
+
+
+      
+        <p>hexo实现后台运行</p>
+<a id="more"></a>
+<p>在自己服务器上部署好hexo，用 <code>hexo s</code> 启动，默认4000端口就可以访问了，美滋滋！<br>但这不是后台启动，想要再敲命令行或干其他事就需要<code>ctrl+c</code>关掉服务才行。<br>然后看hexo文档给出的后台运行命令是<code>hexo s &amp;</code> ，这样的确可以在后台运行，但是一旦断开ssh链接，hexo就挂了。</p>
+<h3 id="从网上找到了以下几个方案："><a href="#从网上找到了以下几个方案：" class="headerlink" title="从网上找到了以下几个方案："></a>从网上找到了以下几个方案：</h3><ul>
+<li>nodejs的forever插件（<a href="https://segmentfault.com/q/1010000004624987" target="_blank" rel="noopener">启动报错，和这位一样的错</a>）</li>
+<li><code>nohup hexo server  &amp;</code> 命令（断开ssh连接，还是挂了）</li>
+<li>nodejs的pm2 插件（本人采用的方案）<br><img src="https://upload-images.jianshu.io/upload_images/11387217-50eefab747f0b445.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><h3 id="安装pm2"><a href="#安装pm2" class="headerlink" title="安装pm2"></a>安装pm2</h3>  npm install -g pm2<h3 id="写一个脚本"><a href="#写一个脚本" class="headerlink" title="写一个脚本"></a>写一个脚本</h3>在博客根目录下创建一个文件 <code>hexo-auto.js</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const &#123; exec &#125; = require(&apos;child_process&apos;)</span><br><span class="line">exec(&apos;hexo server&apos;,(error, stdout, stderr) =&gt; &#123;</span><br><span class="line">  if(error)&#123;</span><br><span class="line">    console.log(`exec error: $&#123;error&#125;`)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(`stdout: $&#123;stdout&#125;`);</span><br><span class="line">  console.log(`stderr: $&#123;stderr&#125;`);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="运行脚本"><a href="#运行脚本" class="headerlink" title="运行脚本"></a>运行脚本</h3><pre><code>pm2 start hexo-auto.js</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/11387217-25eab71203bf6a69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行成功"></p>
+<p>大功告成，现在即使断开ssh连接依然在后台运行！<br>不过发现个问题，用<code>pm2 stop 0</code>停止这个脚本文件,hexo的服务依然运行着，并且断开ssh连接依然可以访问。<br><img src="https://upload-images.jianshu.io/upload_images/11387217-72c991e9bcc693fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="停止运行"><br>应该是脚本文件还有问题，这个暂时不影响，后续再看是什么问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/24/hexo-background-operation/" data-id="ck2k328ih0005zisodm205yet"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo-nodejs-pm2/">hexo nodejs pm2</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+    
+      <a href="/2019/10/17/hello-world/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Hello World</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '34894f603fd35f8f0e4b',
+      clientSecret: '9ab0cb4299775c6c6c3e9cdd6cae64cc0d8a2bbf',
+      repo: 'polaris.github.io',
+      owner: 'Polaris-Java',
+      admin: ['Polaris-Java'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 北极星</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+      <li>
+      	<img src="https://static.dy208.cn/o_1dfilp8ruo521thr1hvf18ji17soa.png">
+		<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">陇ICP备19003991号-1</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/favicon.ico" alt="北极星"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>

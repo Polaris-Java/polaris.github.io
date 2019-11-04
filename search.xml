@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>hexo后台运行</title>
+      <link href="/2019/10/24/hexo-background-operation/"/>
+      <url>/2019/10/24/hexo-background-operation/</url>
+      
+        <content type="html"><![CDATA[<p>hexo实现后台运行</p><a id="more"></a><p>在自己服务器上部署好hexo，用 <code>hexo s</code> 启动，默认4000端口就可以访问了，美滋滋！<br>但这不是后台启动，想要再敲命令行或干其他事就需要<code>ctrl+c</code>关掉服务才行。<br>然后看hexo文档给出的后台运行命令是<code>hexo s &amp;</code> ，这样的确可以在后台运行，但是一旦断开ssh链接，hexo就挂了。</p><h3 id="从网上找到了以下几个方案："><a href="#从网上找到了以下几个方案：" class="headerlink" title="从网上找到了以下几个方案："></a>从网上找到了以下几个方案：</h3><ul><li>nodejs的forever插件（<a href="https://segmentfault.com/q/1010000004624987" target="_blank" rel="noopener">启动报错，和这位一样的错</a>）</li><li><code>nohup hexo server  &amp;</code> 命令（断开ssh连接，还是挂了）</li><li>nodejs的pm2 插件（本人采用的方案）<br><img src="https://upload-images.jianshu.io/upload_images/11387217-50eefab747f0b445.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><h3 id="安装pm2"><a href="#安装pm2" class="headerlink" title="安装pm2"></a>安装pm2</h3>  npm install -g pm2<h3 id="写一个脚本"><a href="#写一个脚本" class="headerlink" title="写一个脚本"></a>写一个脚本</h3>在博客根目录下创建一个文件 <code>hexo-auto.js</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const &#123; exec &#125; = require(&apos;child_process&apos;)</span><br><span class="line">exec(&apos;hexo server&apos;,(error, stdout, stderr) =&gt; &#123;</span><br><span class="line">  if(error)&#123;</span><br><span class="line">    console.log(`exec error: $&#123;error&#125;`)</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(`stdout: $&#123;stdout&#125;`);</span><br><span class="line">  console.log(`stderr: $&#123;stderr&#125;`);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li></ul><h3 id="运行脚本"><a href="#运行脚本" class="headerlink" title="运行脚本"></a>运行脚本</h3><pre><code>pm2 start hexo-auto.js</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/11387217-25eab71203bf6a69.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="运行成功"></p><p>大功告成，现在即使断开ssh连接依然在后台运行！<br>不过发现个问题，用<code>pm2 stop 0</code>停止这个脚本文件,hexo的服务依然运行着，并且断开ssh连接依然可以访问。<br><img src="https://upload-images.jianshu.io/upload_images/11387217-72c991e9bcc693fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="停止运行"><br>应该是脚本文件还有问题，这个暂时不影响，后续再看是什么问题。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> hexo nodejs pm2 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2019/10/17/hello-world/"/>
+      <url>/2019/10/17/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><a id="more"></a><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>第一篇文章</title>
+      <link href="/2019/10/16/first_post/"/>
+      <url>/2019/10/16/first_post/</url>
+      
+        <content type="html"><![CDATA[<p>JDK、JVM底层原理深度解析</p><a id="more"></a><h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>jdk 开发环境： 主要功能是编译， 把我们的java文件编译成class文件<br>还有一些工具<br>包含jre，为了完整性，能够有完整的环境。</p><h2 id="JRE"><a href="#JRE" class="headerlink" title="JRE"></a>JRE</h2><p>jre 运行时环境：  是包含JVM的。</p><p>Write Once Run EveryWhere    可以运行在任何地方：一次编写，任何有jvm的地方都可以运行。</p><h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><p>jvm的优点：<br>    内存管理：缺点是可能会内存溢出等等。<br>jvm运行时数据区：<br>    数据：<br>        方法区<br>        Heap（堆）<br>    指令：<br>        程序计数器<br>        虚拟机栈<br>        本地方法栈<br>jvm：是将我们编写的代码，在运行时，把不同的东西放到不同的地方，更具指令，做一些运算。</p><h3 id="程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。"><a href="#程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。" class="headerlink" title="程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。"></a>程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。</h3><p>为什么要用计数器呢？                      </p><pre><code>当线程A在运行时，占用了CPU的时间片，当线程B抢占了CPU的时间片，当线程A再次接着运行时，需要知道要从哪里开始，这个数据就可以从程序计数器拿到了，程序计数器是线程独享的，程序计数器存在哪里？？？？</code></pre><h3 id="虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。-线程独享的。"><a href="#虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。-线程独享的。" class="headerlink" title="虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。   线程独享的。"></a>虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。   线程独享的。</h3><p>写的方法到底是谁来运行的： 线程（线程是一个执行单位),生命周期和线程是相同。</p><p>虚拟机栈中每个出栈、入栈的单位叫做栈帧，每个方法都是一个栈帧，死循环调用方法（递归调用自己，没出口）， 会JVM异常之:栈溢出StackOverflowError </p><h4 id="栈帧里有："><a href="#栈帧里有：" class="headerlink" title="栈帧里有："></a>栈帧里有：</h4><pre><code>局部变量表：存储局部变量的表，编译的时候就能确认大小，运行时才会有数据操作数栈：javap 指令集中   方法中的数据出栈入栈就是存在这个操作数栈中动态链表：多态中，在运行的时候更具字面量（就是变量名）去动态的找实例。出口：try catch   正常return等等 。。。</code></pre><p>每个栈帧都大小都不一样，因为每个方法的参数等等都是不一样的，所以虚拟机栈没有一个固定的大小。</p><h3 id="本地方法栈（线程独享）："><a href="#本地方法栈（线程独享）：" class="headerlink" title="本地方法栈（线程独享）："></a>本地方法栈（线程独享）：</h3><pre><code>用于用于存放本地方法（native method）:貌似是调用的C、C++等等。</code></pre><h3 id="方法区（线程共享）"><a href="#方法区（线程共享）" class="headerlink" title="方法区（线程共享）"></a>方法区（线程共享）</h3><pre><code>类信息：生成一个实例时，需要的类的信息。常量（不准确）、静态变量： 存在于方法区JIT（运行时编译的代码，详细百度）：动态代理的信息</code></pre><h3 id="Heap（线程共享）"><a href="#Heap（线程共享）" class="headerlink" title="Heap（线程共享）"></a>Heap（线程共享）</h3><p>JVM的内存模型  JMM<br>    java1.8之前<br>        新生代<br>            eden（十分之八）<br>            s0（十分之一）<br>            s1（十分之一）<br>        老年代<br>        永久代<br>    java1.8之后没有永久代，Meta Space替代永久代，能够解决内存溢出，类似ArrayList，可以扩容；缺点可能会压缩其他地方的空间。</p><p>为什么要分代？</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> laaa 啊啊 略略 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
