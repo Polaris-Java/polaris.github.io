@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    第一篇文章 |
+    【SpringBoot】的自定义拦截器@Autowired 注入失败解决方案 |
     
     北极星</title>
   
@@ -26,7 +26,7 @@
   <section class="outer">
   
 
-<article id="post-first_post" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-InterceptorAutowiredError" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -34,7 +34,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      第一篇文章
+      【SpringBoot】的自定义拦截器@Autowired 注入失败解决方案
     </h1>
   
   
@@ -47,8 +47,8 @@
 
     
       <div class="article-meta">
-        <a href="/2019/10/16/first_post/" class="article-date">
-  <time datetime="2019-10-16T07:31:15.000Z" itemprop="datePublished">2019-10-16</time>
+        <a href="/2020/01/04/InterceptorAutowiredError/" class="article-date">
+  <time datetime="2020-01-04T14:23:16.000Z" itemprop="datePublished">2020-01-04</time>
 </a>
         
       </div>
@@ -73,7 +73,7 @@
     <div class="article-gallery-photos">
       
         
-          <img src="https://w.wallhaven.cc/full/83/wallhaven-839kvo.jpg" itemprop="image">
+          <img src="https://w.wallhaven.cc/full/96/wallhaven-967rgd.jpg" itemprop="image">
         
       
     </div>
@@ -81,34 +81,24 @@
 
 
       
-        <p>JDK、JVM底层原理深度解析</p>
+        <p>拦截器@Autowired注入失败解决方案</p>
 <a id="more"></a>
-
-<h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>jdk 开发环境： 主要功能是编译， 把我们的java文件编译成class文件<br>还有一些工具<br>包含jre，为了完整性，能够有完整的环境。</p>
-<h2 id="JRE"><a href="#JRE" class="headerlink" title="JRE"></a>JRE</h2><p>jre 运行时环境：  是包含JVM的。</p>
-<p>Write Once Run EveryWhere    可以运行在任何地方：一次编写，任何有jvm的地方都可以运行。</p>
-<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><p>jvm的优点：<br>    内存管理：缺点是可能会内存溢出等等。<br>jvm运行时数据区：<br>    数据：<br>        方法区<br>        Heap（堆）<br>    指令：<br>        程序计数器<br>        虚拟机栈<br>        本地方法栈<br>jvm：是将我们编写的代码，在运行时，把不同的东西放到不同的地方，更具指令，做一些运算。</p>
-<h3 id="程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。"><a href="#程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。" class="headerlink" title="程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。"></a>程序计数器（线程独享）：指当前线程正在执行的字节码指令的地址、行号。</h3><p>为什么要用计数器呢？                      </p>
-<pre><code>当线程A在运行时，占用了CPU的时间片，当线程B抢占了CPU的时间片，当线程A再次接着运行时，需要知道要从哪里开始，这个数据就可以从程序计数器拿到了，程序计数器是线程独享的，
-程序计数器存在哪里？？？？</code></pre><h3 id="虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。-线程独享的。"><a href="#虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。-线程独享的。" class="headerlink" title="虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。   线程独享的。"></a>虚拟机栈（线程独享）：存储当前线程运行方法所需要的数据、指令、返回地址。   线程独享的。</h3><p>写的方法到底是谁来运行的： 线程（线程是一个执行单位),生命周期和线程是相同。</p>
-<p>虚拟机栈中每个出栈、入栈的单位叫做栈帧，每个方法都是一个栈帧，死循环调用方法（递归调用自己，没出口）， 会JVM异常之:栈溢出StackOverflowError </p>
-<h4 id="栈帧里有："><a href="#栈帧里有：" class="headerlink" title="栈帧里有："></a>栈帧里有：</h4><pre><code>局部变量表：存储局部变量的表，编译的时候就能确认大小，运行时才会有数据
-操作数栈：javap 指令集中   方法中的数据出栈入栈就是存在这个操作数栈中
-动态链表：多态中，在运行的时候更具字面量（就是变量名）去动态的找实例。
-出口：try catch   正常return等等 
-。。。</code></pre><p>每个栈帧都大小都不一样，因为每个方法的参数等等都是不一样的，所以虚拟机栈没有一个固定的大小。</p>
-<h3 id="本地方法栈（线程独享）："><a href="#本地方法栈（线程独享）：" class="headerlink" title="本地方法栈（线程独享）："></a>本地方法栈（线程独享）：</h3><pre><code>用于用于存放本地方法（native method）:貌似是调用的C、C++等等。</code></pre><h3 id="方法区（线程共享）"><a href="#方法区（线程共享）" class="headerlink" title="方法区（线程共享）"></a>方法区（线程共享）</h3><pre><code>类信息：生成一个实例时，需要的类的信息。
-常量（不准确）、静态变量： 存在于方法区
-JIT（运行时编译的代码，详细百度）：动态代理的信息</code></pre><h3 id="Heap（线程共享）"><a href="#Heap（线程共享）" class="headerlink" title="Heap（线程共享）"></a>Heap（线程共享）</h3><p>JVM的内存模型  JMM<br>    java1.8之前<br>        新生代<br>            eden（十分之八）<br>            s0（十分之一）<br>            s1（十分之一）<br>        老年代<br>        永久代<br>    java1.8之后没有永久代，Meta Space替代永久代，能够解决内存溢出，类似ArrayList，可以扩容；缺点可能会压缩其他地方的空间。</p>
-<p>为什么要分代？</p>
+<h1 id="自定义Interceptor拦截器-Autowired-注入失败"><a href="#自定义Interceptor拦截器-Autowired-注入失败" class="headerlink" title="自定义Interceptor拦截器@Autowired 注入失败"></a>自定义Interceptor拦截器@Autowired 注入失败</h1><h4 id="异常：自己定义的拦截器在注入-Autowired-时不成功，空指针异常"><a href="#异常：自己定义的拦截器在注入-Autowired-时不成功，空指针异常" class="headerlink" title="异常：自己定义的拦截器在注入@Autowired 时不成功，空指针异常"></a>异常：自己定义的拦截器在注入@Autowired 时不成功，空指针异常</h4><p>自动注入</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2RsMi5pdGV5ZS5jb20vdXBsb2FkL2F0dGFjaG1lbnQvMDEyOC8zMzA3L2YxMGI1ZTY1LTMxMWMtMzY2OS1hMDBkLWYzOWQxYWE3YzFjYy5wbmc" alt="自动注入"></p>
+<p>异常信息</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2RsMi5pdGV5ZS5jb20vdXBsb2FkL2F0dGFjaG1lbnQvMDEyOC8zMzExL2M1ZDFkMDUxLTgxZTMtM2M1MS1hNzYwLTg1M2Q1NDUxODIxNi5wbmc" alt="异常信息"></p>
+<h4 id="原因：造成null的原因是因为拦截器加载是在SpringContext创建之前完成的，所以在拦截器中注入实体自然就为null。"><a href="#原因：造成null的原因是因为拦截器加载是在SpringContext创建之前完成的，所以在拦截器中注入实体自然就为null。" class="headerlink" title="原因：造成null的原因是因为拦截器加载是在SpringContext创建之前完成的，所以在拦截器中注入实体自然就为null。"></a>原因：造成null的原因是因为拦截器加载是在SpringContext创建之前完成的，所以在拦截器中注入实体自然就为null。</h4><h4 id="解决方案：需要在配置类中使用-Bean注解提前去加载。"><a href="#解决方案：需要在配置类中使用-Bean注解提前去加载。" class="headerlink" title="解决方案：需要在配置类中使用@Bean注解提前去加载。"></a>解决方案：需要在配置类中使用@Bean注解提前去加载。</h4><p>如下图：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2RsMi5pdGV5ZS5jb20vdXBsb2FkL2F0dGFjaG1lbnQvMDEyOC8zMzA5LzBhMmMyOGU1LTg2MjUtM2UxYS04NjllLTgwNzlkODhkZjhhMS5wbmc" alt="提前加载"></p>
+<p><strong>ps：同时在配置拦截器时候，添加拦截器不能使用new AppInterceptor()，而是应该使用@Bean注册的方法，进行方法调用添加到拦截器配置里</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20190802150718692.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppbnlhbmdiZXN0,size_16,color_FFFFFF,t_70" alt></p>
+<p>问题解决！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.polaris.com/2019/10/16/first_post/" data-id="ck52lgsny0002amsos3ko0ly3"
+      <a data-url="http://www.polaris.com/2020/01/04/InterceptorAutowiredError/" data-id="ck52lgsnk0000amso6208fsdx"
          class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/laaa-啊啊-略略/">laaa 啊啊 略略</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Autowired-Interceptor-SpringBoot-拦截器-自动注入/">Autowired Interceptor SpringBoot 拦截器 自动注入</a></li></ul>
 
     </footer>
 
@@ -118,15 +108,20 @@ JIT（运行时编译的代码，详细百度）：动态代理的信息</code><
     
   <nav class="article-nav">
     
-      <a href="/2019/10/17/hello-world/" class="article-nav-link">
+      <a href="/2020/01/05/gitSummary/" class="article-nav-link">
         <strong class="article-nav-caption">前一篇</strong>
         <div class="article-nav-title">
           
-            Hello World
+            Git 学习总结
           
         </div>
       </a>
     
+    
+      <a href="/2019/11/08/linux/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Linux基础知识总结</div>
+      </a>
     
   </nav>
 

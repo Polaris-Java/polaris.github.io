@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta name="referrer" content="no-referrer">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Git 学习总结 |
+    
+    北极星</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-gitSummary" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git 学习总结
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2020/01/05/gitSummary/" class="article-date">
+  <time datetime="2020-01-05T11:34:42.000Z" itemprop="datePublished">2020-01-05</time>
+</a>
+        
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+  <div class="article-gallery">
+    <div class="article-gallery-photos">
+      
+        
+          <img src="https://w.wallhaven.cc/full/ym/wallhaven-ymwopk.jpg" itemprop="image">
+        
+      
+    </div>
+  </div>
+
+
+      
+        <p>Git 学习总结</p>
+<a id="more"></a>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>Git在工作中经常用到，但是指令太多，网上的说法又不太通俗。总会让想要学习的同学抓不到重点，或者望而却步。这篇文章的目的就是希望读后能够按照原理，系统地记忆一些常用/关键的命令。也算是我这个刚入互联网的小白对社会的一些小小福报～其中若有不当之处，欢迎大佬指出。</p>
+</blockquote>
+<p><img src="http://img1.imgtn.bdimg.com/it/u=2551559286,1842849149&fm=26&gp=0.jpg" alt></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Git是一个分布式版本控制系统，为了快速高效地处理小到大型项目的所有内容。通过对信息的压缩和摘要，使得所占空间非常小，但能够支持项目版本迅速迭代的开发工具。</p>
+<h2 id="一、Git的分区"><a href="#一、Git的分区" class="headerlink" title="一、Git的分区"></a>一、Git的分区</h2><p>本章主要从基础入手，先介绍git的分区。</p>
+<h3 id="1-1-三大分区"><a href="#1-1-三大分区" class="headerlink" title="1.1 三大分区"></a>1.1 三大分区</h3><ul>
+<li>工作区，也叫Working Directory</li>
+<li>暂存区，也叫stage，index</li>
+<li>版本库，也叫本地仓库，commit History</li>
+</ul>
+<p>当我们把代码从git hub clone下来或者说初始化git项目后，便有了这三个分区的概念。<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9waWMxLnpoaW1nLmNvbS84MC92Mi04Mjg4YzhjMDkwNTZjZTMwOGYyMGY3ODFmNDQ3ZmQ2Y19oZC5qcGc?x-oss-process=image/format,png" alt="文件在Git不同分区中的表现"></p>
+<p><strong>工作区</strong><br>工作区应该不陌生，就是我们能看见，直接编辑的区域。对于一些新增的文件，如果没有被add到暂存区，就会以红色的形式放置在工作区。</p>
+<p><strong>暂存区</strong><br>数据暂时存放的区域，对于add git版本控制的文件，就算是进入暂存区啦。可以理解为数据进入本地代码仓库之前存放的区域。由于还没对本地仓库生效，所以是数据暂时存放的区域。</p>
+<p>对暂存区的文件修改后，会以蓝色的形式显示。如果第一次创建并add到暂存区的文件，由于远程仓库没有同步，所以会显示绿色。<br><code>注：存放在 &quot;.git目录下&quot; 下的index文件（.git/index）中。</code></p>
+<p><strong>版本库</strong><br>在暂存区commit的代码会被放入版本库中。可以理解为一个本地的代码仓库，push的时候，才会把版本库的数据全都发送到远程仓库中。<br><code>注：存放在工作区中“.git”目录下。</code><br><img src="https://www.runoob.com/wp-content/uploads/2015/02/1352126739_7909.jpg" alt></p>
+<p>扩展阅读：<br><a href="https://juejin.im/post/5b6c4eeff265da0f4d0da3fa" target="_blank" rel="noopener">https://juejin.im/post/…</a><br><a href="https://www.runoob.com/git/git-workspace-index-repo.html" target="_blank" rel="noopener">https://www.runoob.com/git/…</a></p>
+<h3 id="1-1-涉及指令"><a href="#1-1-涉及指令" class="headerlink" title="1.1 涉及指令"></a>1.1 涉及指令</h3><h4 id="1-1-2-分区转换指令"><a href="#1-1-2-分区转换指令" class="headerlink" title="1.1.2 分区转换指令"></a>1.1.2 分区转换指令</h4><p><strong>git add</strong><br>数据从工作区转移至暂存区</p>
+<p><strong>git commit</strong><br>数据从暂存区转移至版本库，也就是本地仓库</p>
+<p><strong>git push</strong><br>数据从版本库中发送到远程仓库</p>
+<p>指令太多？一张图就能记下～<br><img src="https://pic4.zhimg.com/80/v2-8e73605a803bd29ceacd86923e08f5f0_hd.jpg" alt></p>
+<h4 id="1-1-2-分区对比指令"><a href="#1-1-2-分区对比指令" class="headerlink" title="1.1.2 分区对比指令"></a>1.1.2 分区对比指令</h4><p><strong>git diff</strong><br>工作区与暂存区对比</p>
+<p><strong>git diff head</strong><br>工作区与版本库对比</p>
+<p><strong>git diff -cached</strong><br>暂存区与版本库对比</p>
+<p>指令太多？一张图就能记下～<br><img src="https://pic1.zhimg.com/80/v2-e95ac3baeb28734107f8bec468525661_hd.jpg" alt></p>
+<h2 id="二、Git的原理"><a href="#二、Git的原理" class="headerlink" title="二、Git的原理"></a>二、Git的原理</h2><p>操作Git代码库前，一定要了解Git是怎么记录每次提交的代码变化的？换句话说，每一次commit在保证开发效率的前提下，都提交了什么？</p>
+<h3 id="2-1-git如何存储文件-目录信息"><a href="#2-1-git如何存储文件-目录信息" class="headerlink" title="2.1 git如何存储文件/目录信息"></a>2.1 git如何存储文件/目录信息</h3><p>首先我们使用<code>git init</code>，初始化一个新的git项目。这个目录会在项目的根目录下创建.git的隐藏目录，相信大家都不陌生。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ git init</span><br><span class="line">已初始化空的 Git 仓库于 /Users/eleme/wuya/.git/</span><br></pre></td></tr></table></figure>
+
+<p>然后查看一下.git的目录树</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ tree -a</span><br><span class="line">.</span><br><span class="line">└── .git</span><br><span class="line">    ├── HEAD</span><br><span class="line">    ├── config</span><br><span class="line">    ├── description</span><br><span class="line">    ├── hooks</span><br><span class="line">    │   ├── applypatch-msg.sample</span><br><span class="line">    │   ├── commit-msg.sample</span><br><span class="line">    │   ├── fsmonitor-watchman.sample</span><br><span class="line">    │   ├── post-update.sample</span><br><span class="line">    │   ├── pre-applypatch.sample</span><br><span class="line">    │   ├── pre-commit.sample</span><br><span class="line">    │   ├── pre-push.sample</span><br><span class="line">    │   ├── pre-rebase.sample</span><br><span class="line">    │   ├── pre-receive.sample</span><br><span class="line">    │   ├── prepare-commit-msg.sample</span><br><span class="line">    │   └── update.sample</span><br><span class="line">    ├── info</span><br><span class="line">    │   └── exclude</span><br><span class="line">    ├── objects</span><br><span class="line">    │   ├── info</span><br><span class="line">    │   └── pack</span><br><span class="line">    └── refs</span><br><span class="line">        ├── heads</span><br><span class="line">        └── tags</span><br><span class="line"></span><br><span class="line">9 directories, 15 files</span><br></pre></td></tr></table></figure>
+
+<p>我们会发现，有一个叫Objects的目录。这个目录就是存储文件变化的核心。我们往工作区中存入一个测试文件a.md和一个test文件夹并查看objects发生的变化。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ <span class="built_in">echo</span> <span class="string">'test1'</span> &gt; a.md</span><br><span class="line">MacBook-Pro:wuya eleme$ mkdir <span class="built_in">test</span></span><br><span class="line">MacBook-Pro:wuya eleme$ <span class="built_in">echo</span> <span class="string">'test2'</span> &gt; <span class="built_in">test</span>/b.md</span><br><span class="line">MacBook-Pro:wuya eleme$ git add a.md <span class="built_in">test</span></span><br><span class="line">MacBook-Pro:wuya eleme$ tree -a .git/objects</span><br><span class="line">.git/objects</span><br><span class="line">├── 18</span><br><span class="line">│   └── 0cf8328022becee9aaa2577a8f84ea2b9f3827</span><br><span class="line">├── 9d</span><br><span class="line">│   └── aeafb9864cf43055ae93beb0afd6c7d144bfa4</span><br><span class="line">├── info</span><br><span class="line">└── pack</span><br><span class="line"></span><br><span class="line">4 directories, 2 files</span><br></pre></td></tr></table></figure>
+
+<p>注意，文件夹放入到暂存区后，并不会马上在objects中显示，commit后才会。此时多了两个文件，其实就是修改过的两个文件以及修改内容。<br>Objects下存放的<strong>文件名</strong>就是根据SHA1算法哈希的“指纹”，为了能够在本仓库中和其他文件区分出来。<strong>文件内容</strong>就是Git将信息压缩后形成的二进制文件。通过git cat-file [-t] [-p]，可以看到Object的类型与文件的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ git cat-file -t 9dae</span><br><span class="line">blob</span><br><span class="line">MacBook-Pro:wuya eleme$ git cat-file -p 9dae</span><br><span class="line">test1</span><br></pre></td></tr></table></figure>
+
+<p>通过<figure class="highlight plain"><figcaption><span>hash-object a.md```能够显示该文件在本仓库生成的hash值，与之前的目录树显示是对应的。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">MacBook-Pro:wuya eleme$ git hash-object a.md</span><br><span class="line">9daeafb9864cf43055ae93beb0afd6c7d144bfa4</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-2-git-Object的类型"><a href="#2-2-git-Object的类型" class="headerlink" title="2.2 git Object的类型"></a>2.2 git Object的类型</h3><p>git Object有三种类型：</p>
+<ul>
+<li>Blob</li>
+<li>Tree</li>
+<li>Commit</li>
+</ul>
+<p>简单来说，文件都被存储为Blob类型，文件夹则为Tree类型，每次提交的节点被存储为Commit类型数据。因此，Git会以这三种类型来存储我们的文件。简单看下目录存储的映射关系：<br><img src="https://pic2.zhimg.com/80/v2-b1da1f9d9ba4212b80a98000e80f75d4_hd.jpg" alt><br>初步猜想，如果把这些文件都commit到代码库，objects目录应该会有4个目录。即2个blob，1个tree，1个commit。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ git commit -a -m <span class="string">"加入到代码库中，观察objects目录变化"</span></span><br><span class="line">[master（根提交） a16b538] 加入到代码库中，观察objects目录变化</span><br><span class="line"> 2 files changed, 2 insertions(+)</span><br><span class="line"> create mode 100644 a.md</span><br><span class="line"> create mode 100644 <span class="built_in">test</span>/b.md</span><br><span class="line">MacBook-Pro:wuya eleme$ tree -a .git/objects</span><br><span class="line">.git/objects</span><br><span class="line">├── 18</span><br><span class="line">│   └── 0cf8328022becee9aaa2577a8f84ea2b9f3827</span><br><span class="line">├── 21</span><br><span class="line">│   └── d0758079bdf2c8f7514687174454c804eb0c74</span><br><span class="line">├── 9d</span><br><span class="line">│   └── aeafb9864cf43055ae93beb0afd6c7d144bfa4</span><br><span class="line">├── a1</span><br><span class="line">│   └── 6b5382a9b646a7df8d21301391f29b2f7bfb65</span><br><span class="line">├── a7</span><br><span class="line">│   └── 6c93bb75184ef4b34c88a301c2351ae2219407</span><br><span class="line">├── info</span><br><span class="line">└── pack</span><br><span class="line"></span><br><span class="line">7 directories, 5 files</span><br></pre></td></tr></table></figure>
+
+<p>然而事实却是….5个目录！多出的那一个是什么？一个一个输出看看。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ git cat-file -p 9dae</span><br><span class="line">test1</span><br><span class="line">MacBook-Pro:wuya eleme$ git cat-file -p 180c</span><br><span class="line">test2</span><br><span class="line">MacBook-Pro:wuya eleme$ git cat-file -p 21d0</span><br><span class="line">100644 blob 180cf8328022becee9aaa2577a8f84ea2b9f3827	b.md</span><br><span class="line">MacBook-Pro:wuya eleme$ git cat-file -p a16b</span><br><span class="line">tree a76c93bb75184ef4b34c88a301c2351ae2219407</span><br><span class="line">author eleme &lt;xxxx@qq.com&gt; 1576979515 +0800</span><br><span class="line">committer eleme &lt;xxxx@qq.com&gt; 1576979515 +0800</span><br><span class="line"></span><br><span class="line">加入到代码库中，观察objects目录变化</span><br><span class="line">MacBook-Pro:wuya eleme$ git cat-file -p a76c</span><br><span class="line">100644 blob 9daeafb9864cf43055ae93beb0afd6c7d144bfa4	a.md</span><br><span class="line">040000 tree 21d0758079bdf2c8f7514687174454c804eb0c74	<span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>整理一下各自类型：</p>
+<ul>
+<li>9dae-blob</li>
+<li>180c-blob</li>
+<li>21d0-tree</li>
+<li>a16b-commit</li>
+<li>a76c-tree</li>
+</ul>
+<p>仔细一想其实也就通了，两个tree是git根目录和test目录。<br>可以得出这样一个结论：每一次commit，都会生成与之对应的commit hash值。查看历史commit也很容易得出这个结论：<br><img src="https://pic2.zhimg.com/80/v2-bc51d779f84b5bb0c0078d4ceb28efc9_hd.jpg" alt><br>扩展阅读：<br><a href="https://mp.weixin.qq.com/s/d4WA02Y22gdWRbmmwfPEHQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/…</a></p>
+<h2 id="三、Git的分支"><a href="#三、Git的分支" class="headerlink" title="三、Git的分支"></a>三、Git的分支</h2><h3 id="3-1-初探Git分支"><a href="#3-1-初探Git分支" class="headerlink" title="3.1 初探Git分支"></a>3.1 初探Git分支</h3><p>在学习Git分支之前，还是从git的目录树入手。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ tree -a .git</span><br><span class="line">.git</span><br><span class="line">├── ......</span><br><span class="line">├── HEAD</span><br><span class="line">└── refs</span><br><span class="line">    ├── heads</span><br><span class="line">    │   └── master</span><br><span class="line">    ├── remotes</span><br><span class="line">    │   └── origin</span><br><span class="line">    │       └── HEAD</span><br><span class="line">    └── tags</span><br></pre></td></tr></table></figure>
+
+<p>不难看出refs目录就是用来记录当前对分支的引用信息，包括本地分支，远程分支，标签。</p>
+<p>heads记录的是本地所有分支，remotes和HEAD一样，指向对应的某个远程分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:wuya eleme$ cat .git/refs/heads/master</span><br><span class="line">a16b5382a9b646a7df8d21301391f29b2f7bfb65</span><br></pre></td></tr></table></figure>
+
+<p>细心些就会发现，这个<strong>hash值就是commit节点的hash值</strong>。</p>
+<p>而<strong>HEAD</strong>就是存储当前在哪个本地分支。查看其内容，可以发现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:.git eleme$ cat HEAD</span><br><span class="line">ref: refs/heads/master</span><br></pre></td></tr></table></figure>
+
+<p>也就意味着，我们在本地的master上。除此之外，还可以通过<code>git branch</code>来创建其他分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:.git eleme$ git branch feature/dev</span><br><span class="line">MacBook-Pro:.git eleme$ git branch feature/wuya</span><br></pre></td></tr></table></figure>
+
+<p>切换到其他分支并查看分支信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">elemedeMacBook-Pro:wuya eleme$ git checkout feature/dev</span><br><span class="line">切换到分支 <span class="string">'feature/dev'</span></span><br><span class="line">elemedeMacBook-Pro:wuya eleme$ git branch -vv</span><br><span class="line">* feature/dev  a16b538 加入到代码库中，观察objects目录变化</span><br><span class="line">  feature/wuya a16b538 加入到代码库中，观察objects目录变化</span><br><span class="line">  master       a16b538 加入到代码库中，观察objects目录变化</span><br></pre></td></tr></table></figure>
+
+<p>因此可知分支当前的指针指向最近一次commit的节点。通过<strong>谁创建的分支，就沿用谁的指针。</strong>注：未被放入代码库的文件会在分支切换时被抛弃，造成严重后果。</p>
+<h3 id="3-2-合并Git分支"><a href="#3-2-合并Git分支" class="headerlink" title="3.2 合并Git分支"></a>3.2 合并Git分支</h3><p>分支的合并有两种方式，merge和rebase。</p>
+<p>相同点：都是从一个分支获取并合并到当前分支。</p>
+<p><strong>merge</strong>：自动创建一个新的commit，如果遇到冲突，仅需要修改后重新commit。<br><img src="https://pic2.zhimg.com/80/v2-009bf3dd1eb907bb84aa4970d4b7afd4_hd.jpg" alt><br>每次都记录了真实详细的commit，但是在commit频繁的时候，会看到分支比较乱。比如这样，全是merge产生的节点：<br><img src="https://pic1.zhimg.com/80/v2-221ac1d2610b17994333c00e8943c2a5_hd.jpg" alt><br>rebase：找公共的节点，直接合并之前commit历史。<br><img src="https://pic2.zhimg.com/80/v2-d7029972815230a42ac73c108d19f67d_hd.jpg" alt></p>
+<p>这样能得到简洁的分支发展历史，去掉了merge commit。但是如果合并时出现了问题，没有留下痕迹，不好定位。</p>
+<ul>
+<li>git rebase –abort：遇到冲突时放弃合并，回到rebase操作之前的状态。</li>
+<li>git rebase –continue：合并冲突，结合”git add 文件”命令一起，一步一步地解决冲突。</li>
+<li>git rebase –skip：将引起冲突的commits丢弃掉。<h4 id="小例子"><a href="#小例子" class="headerlink" title="小例子"></a>小例子</h4>这里引用一个网上归纳的git rebase工作流：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git rebase </span><br><span class="line">while(存在冲突) &#123;</span><br><span class="line">    //找到当前冲突文件，编辑解决冲突</span><br><span class="line">    git status</span><br><span class="line">    git add -u</span><br><span class="line">    git rebase --continue</span><br><span class="line">    if( git rebase --abort )</span><br><span class="line">        break; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>注：最好不要在公共分支上使用rebase，如果前后基本上不会有别人改动你的分支，那么推荐rebase。</p>
+<p>扩展阅读：<br><a href="https://blog.csdn.net/chenansic/article/details/44122107" target="_blank" rel="noopener">https://blog.csdn.net/…</a></p>
+<h3 id="3-3-分支的冲突"><a href="#3-3-分支的冲突" class="headerlink" title="3.3 分支的冲突"></a>3.3 分支的冲突</h3><h4 id="冲突的产生"><a href="#冲突的产生" class="headerlink" title="冲突的产生"></a>冲突的产生</h4><p>冲突是从合并的时候产生的。git分支的合并，其实就是<strong>tree和tree的合并</strong>。我们在feature/dev上执行<code>git merge master</code>时。<strong>git会先找到这两个分支是从哪个指针创建出来的，称之为“merge base”。然后检查这两次的tree是否一致，如果不一致说明一定有文件发生了修改</strong>。接下来，对于某一个文件来说，分几种情况：<br><img src="https://pic4.zhimg.com/80/v2-bf2e0c9a245eaf25bf06cbad6ba086bc_hd.jpg" alt></p>
+<ol>
+<li>文件在节点6，节点3，merge base中的hash值都相同。说明没有被修改过。不会有冲突。</li>
+<li>文件在节点6和merge base或者节点3和merge base的hash值相同时，此时直接更新文件的变化。</li>
+<li>文件在节点6，merge request，master上的hash值都不同，冲突就产生了。<br>此时就需要开发人员商定，解决冲突。</li>
+</ol>
+<h2 id="四、版本的回滚"><a href="#四、版本的回滚" class="headerlink" title="四、版本的回滚"></a>四、版本的回滚</h2><p>如果想要版本回退，就离不开reset和revert。</p>
+<h3 id="4-1-revert"><a href="#4-1-revert" class="headerlink" title="4.1 revert"></a>4.1 revert</h3><p>这个就一目了然了，执行<code>git revert</code>后，将回退到上一个commit的版本。</p>
+<h3 id="4-2-reset"><a href="#4-2-reset" class="headerlink" title="4.2 reset"></a>4.2 reset</h3><blockquote>
+<p>前段时间，线上出了好多空指针的bug，当我查看日志定位到某一代码行时，发现该行定位不到对应的方法中。这时候就<strong>必须切换到线上的代码版本</strong>进行排查了。</p>
+</blockquote>
+<p><img src="https://pic4.zhimg.com/80/v2-c05d50580dfcd5fa3f013131f4fdf26e_hd.jpg" alt></p>
+<p>git reset分为三种模式：</p>
+<ul>
+<li>soft</li>
+<li>mixed</li>
+<li>hard</li>
+</ul>
+<p>由于每一次的commit都会产生与之对应的hash值，所以借助这个进行重置就轻松多了。</p>
+<p><strong>git reset –hard commit的hash值</strong><br>会重置暂存区和工作区，完全重置为指定的commit节点。当前分支没有commit的代码<strong>必然会被清除</strong>。</p>
+<p><strong>git reset –soft commit的hash值</strong><br>会保留工作目录，并把指定的commit节点与当前分支的差异<strong>都存入暂存区</strong>。也就是说，没有被commit的代码也能够保留下来。</p>
+<p><strong>git reset commit的hash值</strong><br>不带参数，也就是mixed模式。将会保留工作目录，并且把工作区，暂存区以及与reset的差异<strong>都放到工作区，然后清空暂存区</strong>。因此执行后，只要有所差异，文件都会变成红色，变得难以区分。</p>
+<p>一般情况下，我们使用soft模式，既能保留暂存区，又能reset到某个分支。</p>
+<h2 id="五、代码暂存"><a href="#五、代码暂存" class="headerlink" title="五、代码暂存"></a>五、代码暂存</h2><p>当我们在当前分支工作时，不得已需要切换到其他分支处理事情而不想commit时（如果commit多了，会污染log），可以使用git stash 将那些数据都暂存到Git提供的栈中。用法很简单～</p>
+<p><strong>git stash</strong><br>暂存修改过的代码，保存在<strong>Git栈</strong>中，然后将工作区还原成上一次commit的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:young eleme$ git stash</span><br><span class="line">保存工作目录和索引状态 WIP on wuya: 82371a5 上一次commit写的message</span><br></pre></td></tr></table></figure>
+
+<p><strong>git stash list</strong><br>显示之前压栈的所有记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:young eleme$ git stash list</span><br><span class="line">stash@&#123;0&#125;: WIP on aaa: 82371a5 上一次commit写的message</span><br></pre></td></tr></table></figure>
+
+<p><strong>git stash clear</strong><br>清空Git栈。</p>
+<p><em>git stash apply_</em><br>从Git栈中读取上一次暂存的那些代码，恢复工作区。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:young eleme$ git stash apply</span><br><span class="line">位于分支 wuya</span><br><span class="line">您的分支与上游分支 &apos;origin/wuya&apos; 一致。</span><br><span class="line"></span><br><span class="line">尚未暂存以备提交的变更：</span><br><span class="line">  （使用 &quot;git add &lt;文件&gt;...&quot; 更新要提交的内容）</span><br><span class="line">  （使用 &quot;git checkout -- &lt;文件&gt;...&quot; 丢弃工作区的改动）</span><br><span class="line"></span><br><span class="line">        修改：     src/main/java/com/young/test/test1.java</span><br><span class="line"></span><br><span class="line">修改尚未加入提交（使用 &quot;git add&quot; 和/或 &quot;git commit -a&quot;）</span><br></pre></td></tr></table></figure>
+
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>希望大家的Git越用越6，如有疑问，欢迎评论。<br>然后…卑微地求一波赞🥺</p>
+<p>参考文章：<br><a href="https://juejin.im/post/5b6c4eeff265da0f4d0da3fa" target="_blank" rel="noopener">https://juejin.im/post/…</a><br><a href="https://www.runoob.com/git/git-workspace-index-repo.html" target="_blank" rel="noopener">https://www.runoob.com/…</a><br><a href="https://mp.weixin.qq.com/s/d4WA02Y22gdWRbmmwfPEHQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/…</a><br><a href="https://blog.csdn.net/chenansic/article/details/44122107" target="_blank" rel="noopener">https://blog.csdn.net/chenansic/…</a><br><a href="https://zhuanlan.zhihu.com/p/96631135" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/…</a></p>
+<p>原文链接：<a href="https://zhuanlan.zhihu.com/p/98679880" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/98679880</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.polaris.com/2020/01/05/gitSummary/" data-id="ck52lgsq3000camsoo6fv56df"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2020/01/06/Java-Reflect/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            Java_Reflect反射详解
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/01/04/InterceptorAutowiredError/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">【SpringBoot】的自定义拦截器@Autowired 注入失败解决方案</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '34894f603fd35f8f0e4b',
+      clientSecret: '9ab0cb4299775c6c6c3e9cdd6cae64cc0d8a2bbf',
+      repo: 'polaris.github.io',
+      owner: 'Polaris-Java',
+      admin: ['Polaris-Java'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 北极星</li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+      <li>
+		<a href="http://www.beian.miit.gov.cn/"  style="color:#127ea9" target="_blank">陇ICP备19003991号-1</a>
+      </li>
+      <li>
+				 	<div style="width:250px;margin:0 auto;">
+		 		<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=62012102000033" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="https://upload-images.jianshu.io/upload_images/11387217-1c6b62209158bb76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" style="float:left;padding-top: 4px;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px;padding-top: 5px; color:#127ea9;">甘公网安备 62012102000033号</p></a>
+		 	</div>
+		 
+
+	 </li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/favicon.ico" alt="北极星"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+        <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+          <i class="fe fe-feed"></i>
+        </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>
